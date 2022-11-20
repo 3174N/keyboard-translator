@@ -68,19 +68,27 @@ const swap = (str) => {
     return res;
 };
 
-browser.contextMenus.create({
-    id: 'replace',
-    title: 'Translate text',
-    contexts: ['selection'],
-});
-browser.contextMenus.onClicked.addListener((info, tab) => {
+function swapSelected(info) {
     let text = info['selectionText'];
     let swapped = swap(text);
     if (info['editable']) {
-        // TODO: replace text
+        let selection = window.getSelection();
+        if (selection.rangeCount) {
+            console.log('dasf');
+            let range = selection.getRangeAt(0);
+            range.deleteContents();
+            range.insertNode(document.createTextNode(swapped));
+        }
+    } else {
+        navigator.clipboard
+            .writeText(swapped)
+            .then(() => {})
+            .catch(() => {});
     }
-    navigator.clipboard
-        .writeText(swapped)
-        .then(() => {})
-        .catch(() => {});
-});
+}
+
+function handleMessage(request, sender, sendResponse) {
+    swapSelected(request.info);
+}
+
+browser.runtime.onMessage.addListener(handleMessage);

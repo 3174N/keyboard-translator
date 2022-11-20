@@ -5,7 +5,13 @@
     "description": "TBD",
     "permissions": ["contextMenus", "clipboard"],
     "icons": {},
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"]
+        }
+    ],
     "background": {
-        "scripts": ["content.js"]
+        "scripts": ["background.js"]
     }
 }
