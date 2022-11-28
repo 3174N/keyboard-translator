@@ -1,62 +1,20 @@
-const dict = {
-    q: '/',
-    '/': 'q',
-    w: "'",
-    "'": 'w',
-    e: 'ק',
-    ק: 'e',
-    r: 'ר',
-    ר: 'r',
-    t: 'א',
-    א: 't',
-    y: 'ט',
-    ט: 'y',
-    u: 'ו',
-    ו: 'u',
-    i: 'ן',
-    ן: 'i',
-    o: 'ם',
-    ם: 'o',
-    p: 'פ',
-    פ: 'p',
-    a: 'ש',
-    ש: 'a',
-    s: 'ד',
-    ד: 's',
-    d: 'ג',
-    ג: 'd',
-    f: 'כ',
-    כ: 'f',
-    g: 'ע',
-    ע: 'g',
-    h: 'י',
-    י: 'h',
-    j: 'ח',
-    ח: 'j',
-    k: 'ל',
-    ל: 'k',
-    l: 'ך',
-    ך: 'l',
-    ';': ';',
-    ',': "'",
-    z: 'ז',
-    ז: 'z',
-    x: 'ס',
-    ס: 'x',
-    c: 'ב',
-    ב: 'c',
-    v: 'ה',
-    ה: 'v',
-    b: 'נ',
-    נ: 'b',
-    n: 'מ',
-    מ: 'n',
-    m: 'צ',
-    צ: 'm',
-    ת: ',',
-    '.': 'ץ',
-    ץ: '.',
+const en = 'qwertyuiopasdfghjkl;zxcvbnm,./';
+const he = "/'קראטוןםפשדגכעיחלךףזסבהנמצתץ.";
+
+const createDict = (lang1, lang2) => {
+    if (lang1.length !== lang2.length) return; // Language strings should be of same length.
+
+    let dict = {};
+
+    for (let i = 0; i < lang1.length; i++) {
+        dict[lang1.charAt(i)] = lang2.charAt(i);
+        dict[lang2.charAt(i)] = lang1.charAt(i);
+    }
+
+    return dict;
 };
+
+const dict = createDict(en, he);
 
 const swap = (str) => {
     let res = '';
