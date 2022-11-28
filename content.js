@@ -1,27 +1,24 @@
-const en = 'qwertyuiopasdfghjkl;zxcvbnm,./';
-const he = "/'קראטוןםפשדגכעיחלךףזסבהנמצתץ.";
+const en = "qwertyuiopasdfghjkl;zxcvbnm,./'";
+const he = "/'קראטוןםפשדגכעיחלךףזסבהנמצתץ.,";
 
-const createDict = (lang1, lang2) => {
-    if (lang1.length !== lang2.length) return; // Language strings should be of same length.
-
-    let dict = {};
-
-    for (let i = 0; i < lang1.length; i++) {
-        dict[lang1.charAt(i)] = lang2.charAt(i);
-        dict[lang2.charAt(i)] = lang1.charAt(i);
-    }
-
-    return dict;
-};
-
-const dict = createDict(en, he);
-
-const swap = (str) => {
+const swap = (str, lang1 = en, lang2 = he) => {
     let res = '';
+    let isL1 = true;
     for (let i = 0; i < str.length; i++) {
         let char = str.charAt(i);
-        if (dict[char] !== undefined) res += dict[char];
-        else res += char;
+
+        let charInL1 = lang1.includes(char);
+        let charInL2 = lang2.includes(char);
+        if (charInL1 || charInL2) isL1 = charInL1;
+        else {
+            res += char;
+            continue;
+        }
+
+        let resChar;
+        if (isL1) resChar = lang2.charAt(lang1.indexOf(char));
+        else resChar = lang1.charAt(lang2.indexOf(char));
+        res += resChar;
     }
     return res;
 };
@@ -32,7 +29,6 @@ function swapSelected(info) {
     if (info['editable']) {
         let selection = window.getSelection();
         if (selection.rangeCount) {
-            console.log('dasf');
             let range = selection.getRangeAt(0);
             range.deleteContents();
             range.insertNode(document.createTextNode(swapped));
